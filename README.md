@@ -12,6 +12,10 @@ It has a few key advantages over other server software:
 
 CoreX is **under improvement** yet, we welcome contributions. 
 
+We're on Discord
+-----------------
+https://discord.gg/gF4xtVh
+
 Build JAR file
 -------------
 - `git submodule update --init`
