@@ -38,4 +38,4 @@ Development Tools
 There're some tools for Nukkit developers.
 
 * __[FDevTools](https://github.com/fengberd/FDevTools)__ (**Load source and pack them easily**)
-* __[PocketServer](https://github.com/fengberd/MinecraftPEServer)__ (**Run Nukkit on android devices**)
+* __[PocketServer](https://github.com/fengberd/MinecraftPEServer)__ (**Run CoreX on android devices**)
