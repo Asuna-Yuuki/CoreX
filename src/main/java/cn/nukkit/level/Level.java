@@ -5,7 +5,6 @@ import cn.nukkit.Server;
 import cn.nukkit.block.*;
 import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.blockentity.BlockEntityChest;
-import cn.nukkit.blockentity.BlockEntityShulkerBox;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.item.EntityItem;
 import cn.nukkit.entity.item.EntityXPOrb;
@@ -502,8 +501,8 @@ public class Level implements ChunkManager, Metadatable {
         pk.x = (float) pos.x;
         pk.y = (float) pos.y;
         pk.z = (float) pos.z;
-        pk.isBabyMob = unknown;
-        pk.isGlobal = disableRelativeVolume;
+        pk.unknownBool = unknown;
+        pk.disableRelativeVolume = disableRelativeVolume;
 
         if (players == null) {
             this.addChunkPacket(pos.getFloorX(), pos.getFloorZ(), pk);
@@ -972,7 +971,7 @@ public class Level implements ChunkManager, Metadatable {
     }
 
     public void sendBlocks(Player[] target, Vector3[] blocks, int flags, boolean optimizeRebuilds) {
-        List<UpdateBlockPacket.Entry> entries = new ArrayList<>();
+        List<UpdateBlockPacket> packets = new ArrayList<>();
         if (optimizeRebuilds) {
             Map<Long, Boolean> chunks = new HashMap<>();
             for (Vector3 b : blocks) {
@@ -988,26 +987,24 @@ public class Level implements ChunkManager, Metadatable {
                 }
 
                 if (b instanceof Block) {
-                    UpdateBlockPacket.Entry entry = new UpdateBlockPacket.Entry(
-                            (int) b.x,
-                            (int) b.y,
-                            (int) b.z,
-                            ((Block) b).getId(),
-                            ((Block) b).getDamage(),
-                            first ? flags : UpdateBlockPacket.FLAG_NONE
-                    );
-                    entries.add(entry);
+                    UpdateBlockPacket updateBlockPacket = new UpdateBlockPacket();
+                    updateBlockPacket.x = (int) ((Block) b).x;
+                    updateBlockPacket.y = (int) ((Block) b).y;
+                    updateBlockPacket.z = (int) ((Block) b).z;
+                    updateBlockPacket.blockId = ((Block) b).getId();
+                    updateBlockPacket.blockData = ((Block) b).getDamage();
+                    updateBlockPacket.flags = first ? flags : UpdateBlockPacket.FLAG_NONE;
+                    packets.add(updateBlockPacket);
                 } else {
                     int fullBlock = this.getFullBlock((int) b.x, (int) b.y, (int) b.z);
-                    UpdateBlockPacket.Entry entry = new UpdateBlockPacket.Entry(
-                            (int) b.x,
-                            (int) b.y,
-                            (int) b.z,
-                            fullBlock >> 4,
-                            fullBlock & 0xf,
-                            first ? flags : UpdateBlockPacket.FLAG_NONE
-                    );
-                    entries.add(entry);
+                    UpdateBlockPacket updateBlockPacket = new UpdateBlockPacket();
+                    updateBlockPacket.x = (int) b.x;
+                    updateBlockPacket.y = (int) b.y;
+                    updateBlockPacket.z = (int) b.z;
+                    updateBlockPacket.blockId = fullBlock >> 4;
+                    updateBlockPacket.blockData = fullBlock & 0xf;
+                    updateBlockPacket.flags = first ? flags : UpdateBlockPacket.FLAG_NONE;
+                    packets.add(updateBlockPacket);
                 }
             }
         } else {
@@ -1017,34 +1014,29 @@ public class Level implements ChunkManager, Metadatable {
                 }
                 UpdateBlockPacket packet = new UpdateBlockPacket();
                 if (b instanceof Block) {
-                    UpdateBlockPacket.Entry entry = new UpdateBlockPacket.Entry(
-                            (int) b.x,
-                            (int) b.y,
-                            (int) b.z,
-                            ((Block) b).getId(),
-                            ((Block) b).getDamage(),
-                            flags
-                    );
-                    entries.add(entry);
+                    UpdateBlockPacket updateBlockPacket = new UpdateBlockPacket();
+                    updateBlockPacket.x = (int) ((Block) b).x;
+                    updateBlockPacket.y = (int) ((Block) b).y;
+                    updateBlockPacket.z = (int) ((Block) b).z;
+                    updateBlockPacket.blockId = ((Block) b).getId();
+                    updateBlockPacket.blockData = ((Block) b).getDamage();
+                    updateBlockPacket.flags = flags;
+                    packets.add(updateBlockPacket);
                 } else {
                     int fullBlock = this.getFullBlock((int) b.x, (int) b.y, (int) b.z);
-                    UpdateBlockPacket.Entry entry = new UpdateBlockPacket.Entry(
-                            (int) b.x,
-                            (int) b.y,
-                            (int) b.z,
-                            fullBlock >> 4,
-                            fullBlock & 0xf,
-                            flags
-                    );
-                    entries.add(entry);
+                    UpdateBlockPacket updateBlockPacket = new UpdateBlockPacket();
+                    updateBlockPacket.x = (int) b.x;
+                    updateBlockPacket.y = (int) b.y;
+                    updateBlockPacket.z = (int) b.z;
+                    updateBlockPacket.blockId = fullBlock >> 4;
+                    updateBlockPacket.blockData = fullBlock & 0xf;
+                    updateBlockPacket.flags = flags;
+                    packets.add(updateBlockPacket);
                 }
+                packets.add(packet);
             }
         }
-        UpdateBlockPacket packet = new UpdateBlockPacket();
-        packet.entries = entries.stream().toArray(UpdateBlockPacket.Entry[]::new);
-        for (Player player : target) {
-            player.dataPacket(packet);
-        }
+        this.server.batchPackets(target, packets.toArray(new DataPacket[packets.size()]));
     }
 
     public void clearCache() {
@@ -1500,43 +1492,6 @@ public class Level implements ChunkManager, Metadatable {
     public int getFullBlock(int x, int y, int z) {
         return this.getChunk(x >> 4, z >> 4, false).getFullBlock(x & 0x0f, y & 0xff, z & 0x0f);
     }
-    
-    public Block getBlock(double x, double y, double z) {
-        return this.getBlock((int) x, (int)y, (int) z, true);
-    }
-
-    public Block getBlock(int x, int y, int z) {
-        return this.getBlock(x, y, z, true);
-    }
-
-    public Block getBlock(int x, int y, int z, boolean cached) {
-        long chunkIndex = Level.chunkHash((int) x >> 4, (int) z >> 4);
-        BlockVector3 index = Level.blockHash((int) x, (int) y, (int) z);
-        int fullState;
-
-        Block block;
-        BaseFullChunk chunk;
-
-        if (cached && (block = (Block) this.blockCache.get(index)) != null) {
-            return block;
-        } else if (y >= 0 && y < 256 && (chunk = this.chunks.get(chunkIndex)) != null) {
-            fullState = chunk.getFullBlock((int) x & 0x0f, (int) y & 0xff,
-                    (int) z & 0x0f);
-        } else {
-            fullState = 0;
-        }
-
-        block = this.blockStates[fullState & 0xfff].clone();
-
-        block.x = x;
-        block.y = y;
-        block.z = z;
-        block.level = this;
-
-        this.blockCache.put(index, block);
-
-        return block;
-    }
 
     public Block getBlock(Vector3 pos) {
         return this.getBlock(pos, true);
@@ -1929,10 +1884,8 @@ public class Level implements ChunkManager, Metadatable {
                     ((BlockEntityChest) blockEntity).unpair();
                 }
 
-                if (!(blockEntity instanceof BlockEntityShulkerBox)) {
-                    for (Item chestItem : ((InventoryHolder) blockEntity).getInventory().getContents().values()) {
-                        this.dropItem(target, chestItem);
-                    }
+                for (Item chestItem : ((InventoryHolder) blockEntity).getInventory().getContents().values()) {
+                    this.dropItem(target, chestItem);
                 }
             }
 
@@ -2001,6 +1954,10 @@ public class Level implements ChunkManager, Metadatable {
     }
 
     public Item useItemOn(Vector3 vector, Item item, BlockFace face, float fx, float fy, float fz, Player player) {
+        return this.useItemOn(vector, item, face, fx, fy, fz, player, false);
+    }
+
+    public Item useItemOn(Vector3 vector, Item item, BlockFace face, float fx, float fy, float fz, Player player, boolean playSound) {
         Block target = this.getBlock(vector);
         Block block = target.getSide(face);
 
@@ -2049,29 +2006,6 @@ public class Level implements ChunkManager, Metadatable {
         } else if (target.canBeActivated() && target.onActivate(item, null)) {
             return item;
         }
-        return null;
-    }
-
-    public Item usePlaceOn(Vector3 vector, Item item, BlockFace face, float fx, float fy, float fz) {
-        return this.usePlaceOn(vector, item, face, fx, fy, fz, null);
-    }
-
-    public Item usePlaceOn(Vector3 vector, Item item, BlockFace face, float fx, float fy, float fz, Player player) {
-        return this.usePlaceOn(vector, item, face, fx, fy, fz, player, false);
-    }
-
-    public Item usePlaceOn(Vector3 vector, Item item, BlockFace face, float fx, float fy, float fz, Player player, boolean playSound) {
-        Block target = this.getBlock(vector);
-        Block block = target.getSide(face);
-
-        if (block.y > 255 || block.y < 0) {
-            return null;
-        }
-
-        if (target.getId() == Item.AIR) {
-            return null;
-        }
-
         Block hand;
         if (item.canBePlaced()) {
             hand = item.getBlock();
