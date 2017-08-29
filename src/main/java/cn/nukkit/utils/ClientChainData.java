@@ -82,9 +82,13 @@ public final class ClientChainData {
   public int getDefaultInputMode() {
     return defaultInputMode;
   }
-  
-  public String getCapeData() {
-    return capeData;
+
+  public String getADRole() {
+    return ADRole;
+  }
+
+  public String getTenantId() {
+    return tenantId;
   }
 
   public final static int UI_PROFILE_CLASSIC = 0;
@@ -126,10 +130,10 @@ public final class ClientChainData {
   private String languageCode;
   private int currentInputMode;
   private int defaultInputMode;
+  private String ADRole;
+  private String tenantId;
 
   private int UIProfile;
-  
-  private String capeData;
 
   private BinaryStream bs = new BinaryStream();
 
@@ -171,8 +175,9 @@ public final class ClientChainData {
     if (skinToken.has("LanguageCode")) this.languageCode = skinToken.get("LanguageCode").getAsString();
     if (skinToken.has("CurrentInputMode")) this.currentInputMode = skinToken.get("CurrentInputMode").getAsInt();
     if (skinToken.has("DefaultInputMode")) this.defaultInputMode = skinToken.get("DefaultInputMode").getAsInt();
+    if (skinToken.has("ADRole")) this.ADRole = skinToken.get("ADRole").getAsString();
+    if (skinToken.has("TenantId")) this.tenantId = skinToken.get("TenantId").getAsString();
     if (skinToken.has("UIProfile")) this.UIProfile = skinToken.get("UIProfile").getAsInt();
-    if (skinToken.has("CapeData")) this.capeData = skinToken.get("CapeData").getAsString();
   }
 
   private JsonObject decodeToken(String token) {

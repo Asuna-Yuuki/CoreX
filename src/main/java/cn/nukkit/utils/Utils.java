@@ -7,7 +7,6 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -15,36 +14,6 @@ import java.util.UUID;
  * Nukkit Project
  */
 public class Utils {
-    
-    //CoreX
-    private static final Random random = new Random(System.currentTimeMillis());
-
-    /**
-     * Returns a random number between min (inkl.) and max (excl.) If you want a
-     * number between 1 and 4 (inkl) you need to call rand (1, 5)
-     *
-     * @param min min inklusive value
-     * @param max max exclusive value
-     * @return
-     */
-    public static int rand(int min, int max) {
-        if (min == max) {
-            return max;
-        }
-        return min + random.nextInt(max - min);
-    }
-
-    /**
-     * Returns random boolean
-     *
-     * @return a boolean random value either <code>true</code> or
-     * <code>false</code>
-     */
-    public static boolean rand() {
-        return random.nextBoolean();
-    }
-    
-    //////////////////////////////////////////////////////
 
     public static void writeFile(String fileName, String content) throws IOException {
         writeFile(fileName, new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8)));
