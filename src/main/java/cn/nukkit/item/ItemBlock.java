@@ -28,11 +28,6 @@ public class ItemBlock extends Item {
         }
         this.block.setDamage(meta);
     }
-    
-    @Override
-    public int getMaxStackSize() {
-        return this.block.getMaxStackSize();
-    }
 
     @Override
     public ItemBlock clone() {

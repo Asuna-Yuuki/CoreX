@@ -141,7 +141,7 @@ public abstract class Block extends Position implements Metadatable, Cloneable {
     public static final int CLAY_BLOCK = 82;
     public static final int REEDS = 83;
     public static final int SUGARCANE_BLOCK = 83;
-    public static final int JUKEBOX = 84;
+
     public static final int FENCE = 85;
     public static final int PUMPKIN = 86;
     public static final int NETHERRACK = 87;
@@ -436,7 +436,7 @@ public abstract class Block extends Position implements Metadatable, Cloneable {
             list[CACTUS] = BlockCactus.class; //81
             list[CLAY_BLOCK] = BlockClay.class; //82
             list[SUGARCANE_BLOCK] = BlockSugarcane.class; //83
-            list[JUKEBOX] = BlockJukebox.class; //84
+
             list[FENCE] = BlockFence.class; //85
             list[PUMPKIN] = BlockPumpkin.class; //86
             list[NETHERRACK] = BlockNetherrack.class; //87
@@ -512,7 +512,7 @@ public abstract class Block extends Position implements Metadatable, Cloneable {
             list[DOUBLE_WOOD_SLAB] = BlockDoubleSlabWood.class; //157
             list[WOOD_SLAB] = BlockSlabWood.class; //158
             list[STAINED_TERRACOTTA] = BlockTerracottaStained.class; //159
-            list[STAINED_GLASS_PANE] = BlockGlassPaneStained.class; //160
+            //TODO: list[STAINED_GLASS_PANE] = BlockGlassPaneStained.class; //160
 
             list[LEAVES2] = BlockLeaves2.class; //161
             list[WOOD2] = BlockWood2.class; //162
@@ -548,7 +548,7 @@ public abstract class Block extends Position implements Metadatable, Cloneable {
             list[DARK_OAK_DOOR_BLOCK] = BlockDoorDarkOak.class; //197
             list[GRASS_PATH] = BlockGrassPath.class; //198
             list[ITEM_FRAME_BLOCK] = BlockItemFrame.class; //199
-            list[CHORUS_FLOWER] = BlockChorusFlower.class; //200
+            //TODO: list[CHORUS_FLOWER] = BlockChorusFlower.class; //200
             list[PURPUR_BLOCK] = BlockPurpur.class; //201
 
             list[PURPUR_STAIRS] = BlockStairsPurpur.class; //203
@@ -558,7 +558,7 @@ public abstract class Block extends Position implements Metadatable, Cloneable {
             list[END_ROD] = BlockEndRod.class; //208
             list[END_GATEWAY] = BlockEndGateway.class; //209
 
-            list[SHULKER_BOX] = BlockShulkerBox.class; //218
+            //TODO: list[SHULKER_BOX] = BlockShulkerBox.class; //218
             list[PURPLE_GLAZED_TERRACOTTA] = BlockTerracottaGlazedPurple.class; //219
             list[WHITE_GLAZED_TERRACOTTA] = BlockTerracottaGlazedWhite.class; //220
             list[ORANGE_GLAZED_TERRACOTTA] = BlockTerracottaGlazedOrange.class; //221
@@ -579,8 +579,7 @@ public abstract class Block extends Position implements Metadatable, Cloneable {
             list[CONCRETE] = BlockConcrete.class; //236
             list[CONCRETE_POWDER] = BlockConcretePowder.class; //237
 
-            list[CHORUS_PLANT] = BlockChorusPlant.class; //240
-            list[STAINED_GLASS] = BlockGlassStained.class; //241
+            //TODO: list[CHORUS_PLANT] = BlockChorusPlant.class; //240
             list[PODZOL] = BlockPodzol.class; //243
             list[BEETROOT_BLOCK] = BlockBeetroot.class; //244
             list[GLOWING_OBSIDIAN] = BlockObsidianGlowing.class; //246
@@ -801,10 +800,6 @@ public abstract class Block extends Position implements Metadatable, Cloneable {
 
     public final void setDamage(Integer meta) {
         this.meta = (meta == null ? 0 : meta & 0x0f);
-    }
-    
-    public int getMaxStackSize() {
-        return 64;
     }
 
     final public void position(Position v) {

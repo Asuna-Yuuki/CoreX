@@ -16,7 +16,6 @@ import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.nbt.tag.StringTag;
 import cn.nukkit.nbt.tag.Tag;
 import cn.nukkit.utils.Binary;
-import cn.nukkit.utils.DyeColor;
 
 import java.io.IOException;
 import java.nio.ByteOrder;
@@ -161,7 +160,7 @@ public class Item implements Cloneable {
     public static final int CLAY_BLOCK = 82;
     public static final int REEDS = 83;
     public static final int SUGARCANE_BLOCK = 83;
-    public static final int JUKEBOX = 84;
+
     public static final int FENCE = 85;
     public static final int PUMPKIN = 86;
     public static final int NETHERRACK = 87;
@@ -562,19 +561,6 @@ public class Item implements Cloneable {
     public static final int COOKED_SALMON = 463;
 
     public static final int GOLDEN_APPLE_ENCHANTED = 466;
-    
-    public static final int RECORD_13 = 500;
-    public static final int RECORD_CAT = 501;
-    public static final int RECORD_BLOCKS = 502;
-    public static final int RECORD_CHIRP = 503;
-    public static final int RECORD_FAR = 504;
-    public static final int RECORD_MALL = 505;
-    public static final int RECORD_MELLOHI = 506;
-    public static final int RECORD_STAL = 507;
-    public static final int RECORD_STRAD = 508;
-    public static final int RECORD_WARD = 509;
-    public static final int RECORD_11 = 510;
-    public static final int RECORD_WAIT = 511;
 
     public static Class[] list = null;
 
@@ -996,22 +982,10 @@ public class Item implements Cloneable {
         addCreativeItem(Item.get(Item.FENCE_GATE_ACACIA, 0));
         addCreativeItem(Item.get(Item.FENCE_GATE_DARK_OAK, 0));
         addCreativeItem(Item.get(Item.IRON_BARS, 0));
-        addCreativeItem(Item.get(Item.BED, DyeColor.WHITE.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.LIGHT_GRAY.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.GRAY.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.BLACK.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.BROWN.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.RED.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.ORANGE.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.YELLOW.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.LIME.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.GREEN.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.CYAN.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.LIGHT_BLUE.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.BLUE.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.PURPLE.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.MAGENTA.getWoolData()));
-        addCreativeItem(Item.get(Item.BED, DyeColor.PINK.getWoolData()));
+        int[] dyeColors = {0, 8, 7, 15, 12, 14, 1, 4, 5, 13, 9, 3, 11, 10, 2, 6};
+        for (int color : dyeColors) {
+            addCreativeItem(Item.get(Item.BED, color));
+        }
         addCreativeItem(Item.get(Item.BOOKSHELF, 0));
         addCreativeItem(Item.get(Item.SIGN, 0));
         addCreativeItem(Item.get(Item.PAINTING, 0));
@@ -1026,22 +1000,6 @@ public class Item implements Cloneable {
         addCreativeItem(Item.get(Item.NOTEBLOCK, 0));
         addCreativeItem(Item.get(Item.END_ROD, 0));
         addCreativeItem(Item.get(Item.END_PORTAL_FRAME, 0));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.WHITE.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.LIGHT_GRAY.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.GRAY.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.BLACK.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.BROWN.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.RED.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.ORANGE.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.YELLOW.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.LIME.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.GREEN.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.CYAN.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.LIGHT_BLUE.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.BLUE.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.PURPLE.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.MAGENTA.getWoolData()));
-        addCreativeItem(Item.get(Item.SHULKER_BOX, DyeColor.PINK.getWoolData()));
         addCreativeItem(Item.get(Item.ANVIL, 0));
         addCreativeItem(Item.get(Item.ANVIL, 4));
         addCreativeItem(Item.get(Item.ANVIL, 8));
@@ -1105,24 +1063,6 @@ public class Item implements Cloneable {
         addCreativeItem(Item.get(Item.MAGENTA_GLAZED_TERRACOTTA));
         addCreativeItem(Item.get(Item.WHITE_GLAZED_TERRACOTTA));
         addCreativeItem(Item.get(Item.PINK_GLAZED_TERRACOTTA));
-        
-        /*Stained Glass
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 1));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 2));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 3));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 3));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 4));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 5));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 6));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 7));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 8));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 9));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 10));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 11));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 12));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 13));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 14));
-        addCreativeItem(Item.get(Item.STAINED_GLASS, 15));*/
 
         addCreativeItem(Item.get(Item.CAKE, 0));
 
@@ -1149,22 +1089,9 @@ public class Item implements Cloneable {
         addCreativeItem(Item.get(Item.SLIME_BLOCK, 0));
         addCreativeItem(Item.get(Item.ENDER_CHEST, 0));
 
-        addCreativeItem(Item.get(Item.WOOL, 0));
-        addCreativeItem(Item.get(Item.WOOL, 8));
-        addCreativeItem(Item.get(Item.WOOL, 7));
-        addCreativeItem(Item.get(Item.WOOL, 15));
-        addCreativeItem(Item.get(Item.WOOL, 12));
-        addCreativeItem(Item.get(Item.WOOL, 14));
-        addCreativeItem(Item.get(Item.WOOL, 1));
-        addCreativeItem(Item.get(Item.WOOL, 4));
-        addCreativeItem(Item.get(Item.WOOL, 5));
-        addCreativeItem(Item.get(Item.WOOL, 13));
-        addCreativeItem(Item.get(Item.WOOL, 9));
-        addCreativeItem(Item.get(Item.WOOL, 3));
-        addCreativeItem(Item.get(Item.WOOL, 11));
-        addCreativeItem(Item.get(Item.WOOL, 10));
-        addCreativeItem(Item.get(Item.WOOL, 2));
-        addCreativeItem(Item.get(Item.WOOL, 6));
+        for (int color : dyeColors) {
+            addCreativeItem(Item.get(Item.WOOL, color));
+        }
 
         addCreativeItem(Item.get(Item.CARPET, 0));
         addCreativeItem(Item.get(Item.CARPET, 8));
@@ -1228,6 +1155,8 @@ public class Item implements Cloneable {
         addCreativeItem(Item.get(Item.SPAWN_EGG, 16)); //Mooshroom
         addCreativeItem(Item.get(Item.SPAWN_EGG, 17)); //Squid
         addCreativeItem(Item.get(Item.SPAWN_EGG, 19)); //Bat 
+		//addCreativeItem(Item.get(Item.SPAWN_EGG, 20)); //Iron Golem
+        //addCreativeItem(Item.get(Item.SPAWN_EGG, 21)); //Snow Golem
         addCreativeItem(Item.get(Item.SPAWN_EGG, 22)); //Ocelot
         addCreativeItem(Item.get(Item.SPAWN_EGG, 23)); //Horse
         addCreativeItem(Item.get(Item.SPAWN_EGG, 24)); //Donkey
@@ -1410,22 +1339,9 @@ public class Item implements Cloneable {
         addCreativeItem(Item.get(Item.SHULKER_SHELL));
         addCreativeItem(Item.get(Item.PRISMARINE_SHARD, 0));
         addCreativeItem(Item.get(Item.PRISMARINE_CRYSTALS, 0));
-        addCreativeItem(Item.get(Item.DYE, 0));
-        addCreativeItem(Item.get(Item.DYE, 8));
-        addCreativeItem(Item.get(Item.DYE, 7));
-        addCreativeItem(Item.get(Item.DYE, 15));
-        addCreativeItem(Item.get(Item.DYE, 12));
-        addCreativeItem(Item.get(Item.DYE, 14));
-        addCreativeItem(Item.get(Item.DYE, 1));
-        addCreativeItem(Item.get(Item.DYE, 4));
-        addCreativeItem(Item.get(Item.DYE, 5));
-        addCreativeItem(Item.get(Item.DYE, 13));
-        addCreativeItem(Item.get(Item.DYE, 9));
-        addCreativeItem(Item.get(Item.DYE, 3));
-        addCreativeItem(Item.get(Item.DYE, 11));
-        addCreativeItem(Item.get(Item.DYE, 10));
-        addCreativeItem(Item.get(Item.DYE, 2));
-        addCreativeItem(Item.get(Item.DYE, 6));
+        for (int color : dyeColors) {
+            addCreativeItem(Item.get(Item.DYE, color));
+        }
 
         //Potion
         addCreativeItem(Item.get(Item.GLASS_BOTTLE, 0));

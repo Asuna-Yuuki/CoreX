@@ -1,5 +1,7 @@
 package cn.nukkit.block;
 
+import cn.nukkit.level.Level;
+
 /**
  * author: Angelic47
  * Nukkit Project
