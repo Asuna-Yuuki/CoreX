@@ -25,12 +25,10 @@ public class TextPacket extends DataPacket {
     public String source = "";
     public String message = "";
     public String[] parameters = new String[0];
-    public boolean isLocalized = false;
 
     @Override
     public void decode() {
         this.type = (byte) getByte();
-        this.isLocalized = this.getBoolean();
         switch (type) {
             case TYPE_POPUP:
             case TYPE_CHAT:
@@ -57,7 +55,6 @@ public class TextPacket extends DataPacket {
     public void encode() {
         this.reset();
         this.putByte(this.type);
-        this.putBoolean(this.isLocalized);
         switch (this.type) {
             case TYPE_POPUP:
             case TYPE_CHAT:

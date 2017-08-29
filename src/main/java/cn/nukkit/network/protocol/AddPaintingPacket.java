@@ -17,11 +17,6 @@ public class AddPaintingPacket extends DataPacket {
 
     @Override
     public void decode() {
-        this.entityUniqueId = this.getVarLong();
-	this.entityRuntimeId = this.getVarLong();
-	//x,y,z
-	this.direction = this.getVarInt();
-	this.title = this.getString();
 
     }
 
@@ -30,7 +25,7 @@ public class AddPaintingPacket extends DataPacket {
         this.reset();
         this.putVarLong(this.entityUniqueId);
         this.putVarLong(this.entityRuntimeId);
-        this.putBlockVector3(this.x, this.y, this.z);
+        this.putBlockCoords(this.x, this.y, this.z);
         this.putVarInt(this.direction);
         this.putString(this.title);
     }

@@ -41,14 +41,7 @@ public class LevelEventPacket extends DataPacket {
 
     public static final int EVENT_SOUND_CAMERA_TAKE_PICTURE = 1050;
     public static final int EVENT_SOUND_EXPERIENCE_ORB = 1051;
-    public static final int EVENT_SOUND_TOTEM = 1052;
-    
-    public static final int EVENT_SOUND_ARMOR_STAND_BREAK = 1060;
-    public static final int EVENT_SOUND_ARMOR_STAND_HIT = 1061;
-    public static final int EVENT_SOUND_ARMOR_STAND_FALL = 1062;
-    public static final int EVENT_SOUND_ARMOR_STAND_PLACE = 1063;
-    
-    //public static final int EVENT_SOUND_BLOCK_PLACE = 1052;
+    public static final int EVENT_SOUND_BLOCK_PLACE = 1052;
 
     public static final int EVENT_GUARDIAN_CURSE = 2006;
     
@@ -65,7 +58,6 @@ public class LevelEventPacket extends DataPacket {
     public static final int EVENT_SOUND_SPLASH = 3506;
     public static final int EVENT_CAULDRON_TAKE_WATER = 3507;
     public static final int EVENT_CAULDRON_ADD_DYE = 3508;
-    public static final int EVENT_CAULDRON_CLEAN_BANNER = 3509;
     
     public static final int EVENT_PARTICLE_SHOOT = 2000;
     public static final int EVENT_PARTICLE_DESTROY = 2001;
@@ -78,7 +70,6 @@ public class LevelEventPacket extends DataPacket {
     public static final int EVENT_START_THUNDER = 3002;
     public static final int EVENT_STOP_RAIN = 3003;
     public static final int EVENT_STOP_THUNDER = 3004;
-    public static final int EVENT_PAUSE_GAME = 3005; //data: 1 to pause, 0 to resume
 
     public static final int EVENT_SOUND_CAULDRON = 3501;
     public static final int EVENT_SOUND_CAULDRON_DYE_ARMOR = 3502;
@@ -98,7 +89,7 @@ public class LevelEventPacket extends DataPacket {
     public float x = 0;
     public float y = 0;
     public float z = 0;
-    public int data = 0;
+    public int data;
 
     @Override
     public byte pid() {
