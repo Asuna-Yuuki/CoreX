@@ -262,14 +262,14 @@ public class BlockEntityFurnace extends BlockEntitySpawnable implements Inventor
             int windowId = player.getWindowId(this.getInventory());
             if (windowId > 0) {
                 ContainerSetDataPacket pk = new ContainerSetDataPacket();
-                pk.windowId = windowId;
-                pk.property = ContainerSetDataPacket.PROPERTY_FURNACE_TICK_COUNT;;
+                pk.windowid = (byte) windowId;
+                pk.property = 0;
                 pk.value = cookTime;
                 player.dataPacket(pk);
 
                 pk = new ContainerSetDataPacket();
-                pk.windowId = windowId;
-                pk.property = ContainerSetDataPacket.PROPERTY_FURNACE_LIT_TIME;
+                pk.windowid = (byte) windowId;
+                pk.property = 1;
                 pk.value = burnDuration;
                 player.dataPacket(pk);
             }
