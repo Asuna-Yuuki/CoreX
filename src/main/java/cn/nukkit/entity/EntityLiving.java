@@ -4,7 +4,6 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.block.Block;
 import cn.nukkit.entity.data.ShortEntityData;
-import cn.nukkit.entity.item.EntityVehicle;
 import cn.nukkit.entity.passive.EntityWaterAnimal;
 import cn.nukkit.event.entity.*;
 import cn.nukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -24,11 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * author: MagicDroidX 
+ * author: MagicDroidX
  * Nukkit Project
  */
 public abstract class EntityLiving extends Entity implements EntityDamageable {
-
     public EntityLiving(FullChunk chunk, CompoundTag nbt) {
         super(chunk, nbt);
     }
@@ -86,10 +84,6 @@ public abstract class EntityLiving extends Entity implements EntityDamageable {
     public boolean hasLineOfSight(Entity entity) {
         //todo
         return true;
-    }
-
-    public void collidingWith(EntityVehicle ent) { // can override (IronGolem|Bats)
-        ent.applyEntityCollision(this);
     }
 
     @Override
@@ -237,14 +231,6 @@ public abstract class EntityLiving extends Entity implements EntityDamageable {
         if (this.attackTime > 0) {
             this.attackTime -= tickDiff;
         }
-        if (this.riding == null) {
-            for (Entity entity : level.getNearbyEntities(this.boundingBox.grow(0.20000000298023224D, 0.0D, 0.20000000298023224D), this)) {
-                if (entity instanceof EntityVehicle) {
-                    this.collidingWith((EntityVehicle) entity);
-                }
-            }
-        }
-
         Timings.livingEntityBaseTickTimer.stopTiming();
 
         return hasUpdate;
