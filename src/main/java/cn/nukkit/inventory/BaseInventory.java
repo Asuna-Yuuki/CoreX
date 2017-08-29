@@ -8,8 +8,8 @@ import cn.nukkit.event.entity.EntityInventoryChangeEvent;
 import cn.nukkit.event.inventory.InventoryOpenEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemBlock;
-import cn.nukkit.network.protocol.InventoryContentPacket;
-import cn.nukkit.network.protocol.InventorySlotPacket;
+import cn.nukkit.network.protocol.ContainerSetContentPacket;
+import cn.nukkit.network.protocol.ContainerSetSlotPacket;
 
 import java.util.*;
 
@@ -438,19 +438,20 @@ public abstract class BaseInventory implements Inventory {
 
     @Override
     public void sendContents(Player[] players) {
-        InventoryContentPacket pk = new InventoryContentPacket();
+        ContainerSetContentPacket pk = new ContainerSetContentPacket();
         pk.slots = new Item[this.getSize()];
         for (int i = 0; i < this.getSize(); ++i) {
             pk.slots[i] = this.getItem(i);
         }
 
         for (Player player : players) {
+            pk.eid = player.getId();
             int id = player.getWindowId(this);
             if (id == -1 || !player.spawned) {
                 this.close(player);
                 continue;
             }
-            pk.inventoryId = id;
+            pk.windowid = (byte) id;
             player.dataPacket(pk);
         }
     }
@@ -515,7 +516,7 @@ public abstract class BaseInventory implements Inventory {
 
     @Override
     public void sendSlot(int index, Player[] players) {
-        InventorySlotPacket pk = new InventorySlotPacket();
+        ContainerSetSlotPacket pk = new ContainerSetSlotPacket();
         pk.slot = index;
         pk.item = this.getItem(index).clone();
 
@@ -525,7 +526,7 @@ public abstract class BaseInventory implements Inventory {
                 this.close(player);
                 continue;
             }
-            pk.inventoryId = id;
+            pk.windowid = (byte) id;
             player.dataPacket(pk);
         }
     }
